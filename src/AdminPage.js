@@ -6,14 +6,15 @@ import axios from 'axios';
 
 const AdminPage = () => {
   const [parkAreas, setParkAreas] = useState([]); // State to store park areas data
+  const [editingAreaId, setEditingAreaId] = useState(null); // State to store the ID of the area being edited
 
   const fetchParkAreas = async () => {
     try {
       const response = await axios.get(
         "https://quikspot.vercel.app/api/admin/getParkAreasUnderVerification"
       );
-      setParkAreas([response.data.data[0]]);
-      console.log(response.data.data[0]) // Update state with fetched data
+      setParkAreas(response.data.data);
+      console.log(response.data.data); // Update state with fetched data
     } catch (error) {
       console.error("Error fetching park areas:", error);
     }
@@ -39,7 +40,7 @@ const AdminPage = () => {
       facilitiesAvailable: area.facilitiesAvailable,
       parkAreaType: area.parkSpaceType,
     };
-
+    console.log("PARK AREA DETAILS", parkAreaDetails);
     try {
       const response = await axios.post(
         'https://quikspot.vercel.app/api/admin/addParkArea',
@@ -68,6 +69,16 @@ const AdminPage = () => {
     } catch (error) {
       console.error('Error rejecting park area:', error);
     }
+  };
+
+  const handleEdit = (areaId) => {
+    setEditingAreaId(areaId);
+  };
+
+  const handleSave = async (area) => {
+    // Implement save functionality to send edited data to the database
+    console.log("Saving edited data:", area);
+    setEditingAreaId(null); // Disable editing mode after saving
   };
 
   const responsive = {
@@ -107,18 +118,37 @@ const AdminPage = () => {
   >
   {parkAreas.map((area) => (
     <div className="card" key={area.userId}>
-      <img src="Parking4.jpg" alt="Image 4" />
+      <img src="Parking4.jpg" alt="Parking img" />
       <div className="info">
-        <h2>{area.name}</h2>
-        <p>Location: {area.address}</p>
-        <p>Pin code: {area.pincode}</p>
-        <p>Email: {area.email}</p>
+        {editingAreaId === area.userId ? (
+          <>
+            <input type="text" defaultValue={area.name} onChange={(e) => area.name = e.target.value} />
+            <input type="text" defaultValue={area.address} onChange={(e) => area.address = e.target.value} />
+            {/*Add more editable fields as needed here*/}
+          </>
+        ) : (
+          <>
+            <h2>{area.name}</h2>
+            <p>Location: {area.address}</p>
+            <p>Pin code: {area.pincode}</p>
+            <p>Email: {area.email}</p>
+          </>
+        )}
         <button onClick={() => handleAccept(area)}>
           Accept
         </button>
         <button onClick={() => handleReject(area)}>
           Reject
         </button>
+        {editingAreaId === area.userId ? (
+          <button onClick={() => handleSave(area)}>
+            Save
+          </button>
+        ) : (
+          <button onClick={() => handleEdit(area.userId)}>
+            Edit
+          </button>
+        )}
       </div>
     </div>
   ))}
