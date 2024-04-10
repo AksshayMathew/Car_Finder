@@ -1,49 +1,52 @@
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  background-image: url('bg2.jpg'); /* Replace 'background.jpg' with your image URL or file path */
-  background-size: cover;
-  background-position: center;
+/* AdminPage CSS */
+
+.carousel-container {
+  max-width: 1200px; /* Adjust the max-width as needed */
+  margin: 0 auto; /* Center the carousel container */
+  padding: 20px; /* Add padding around the carousel */
 }
 
+/* Card CSS */
 .card {
-  width: calc(75% - 20px); /* Adjust card width for four cards in a row */
-  margin-top: 40px;
-  margin-bottom: 40px;
+  background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .card img {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 5px;
+  width: 100%; /* Make sure the image fills the container */
+  border-radius: 8px 8px 0 0; /* Rounded corners for the top */
 }
 
-.info {
-  margin-top: 10px;
+.card h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
 }
 
-h2 {
-  margin-bottom: 5px;
+.card p {
+  margin: 0.5rem 0;
 }
 
-button {
-  padding: 5px 10px;
+.card button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
+.card button:hover {
   background-color: #0056b3;
+}
+
+/* Adjust card layout for smaller screens */
+@media screen and (max-width: 768px) {
+  .card {
+    padding: 15px;
+  }
 }

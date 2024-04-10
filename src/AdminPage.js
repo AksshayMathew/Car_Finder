@@ -1,8 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import './AdminLayout.css'; // Import the CSS file for styling
+import React, { useState, useEffect } from "react";
+import "./AdminLayout.css"; // Import the CSS file for styling
 import Carousel from "react-multi-carousel";
+import Card from "./components/Card";
 import "react-multi-carousel/lib/styles.css";
-import axios from 'axios';
+import axios from "axios";
+
+const SampleData = [
+  {
+    address: "Sunrise Apartments",
+    city: "Thiruvananthapuram",
+    district: "Trivandrum",
+    email: "john.doe@example.com",
+    estimatedCapacity: 15,
+    expectedPricePerHour: 25,
+    facilitiesAvailable: ["WiFi", "Air Conditioning", "Restroom"],
+    location: { latitude: 8.524139, longitude: 76.936638 },
+    name: "John Doe",
+    parkSpaceName: "Sunrise Parking",
+    parkSpaceType: "Shared",
+    phoneNumber: 9876543210,
+    pincode: 695014,
+    state: "Kerala",
+    street: "MG Road",
+    userId: "6610b6059c58380722d14a59",
+  },
+  {
+    address: "Ocean View Villa",
+    city: "Kovalam",
+    district: "Trivandrum",
+    email: "jane.smith@example.com",
+    estimatedCapacity: 20,
+    expectedPricePerHour: 30,
+    facilitiesAvailable: ["Swimming Pool", "Garden", "BBQ Area"],
+    location: { latitude: 8.402071, longitude: 76.978708 },
+    name: "Jane Smith",
+    parkSpaceName: "Ocean Parking",
+    parkSpaceType: "Dedicated",
+    phoneNumber: 9876543211,
+    pincode: 695527,
+    state: "Kerala",
+    street: "Beach Road",
+    userId: "6610b6059c58380722d14a60",
+  },
+  {
+    address: "Green Valley Resorts",
+    city: "Varkala",
+    district: "Trivandrum",
+    email: "alex.wilson@example.com",
+    estimatedCapacity: 30,
+    expectedPricePerHour: 40,
+    facilitiesAvailable: ["Restaurant", "Gym", "Spa"],
+    location: { latitude: 8.737563, longitude: 76.716365 },
+    name: "Alex Wilson",
+    parkSpaceName: "Green Parking",
+    parkSpaceType: "Shared",
+    phoneNumber: 9876543212,
+    pincode: 695141,
+    state: "Kerala",
+    street: "Cliff Road",
+    userId: "6610b6059c58380722d14a61",
+  },
+  {
+    address: "Hilltop Retreat",
+    city: "Ponmudi",
+    district: "Trivandrum",
+    email: "emma.jones@example.com",
+    estimatedCapacity: 25,
+    expectedPricePerHour: 35,
+    facilitiesAvailable: ["Hiking Trails", "Campfire Area", "Playground"],
+    location: { latitude: 8.790041, longitude: 77.108862 },
+    name: "Emma Jones",
+    parkSpaceName: "Hilltop Parking",
+    parkSpaceType: "Dedicated",
+    phoneNumber: 9876543213,
+    pincode: 695551,
+    state: "Kerala",
+    street: "Hill Road",
+    userId: "6610b6059c58380722d14a62",
+  },
+  {
+    address: "Riverfront Residency",
+    city: "Neyyar Dam",
+    district: "Trivandrum",
+    email: "michael.brown@example.com",
+    estimatedCapacity: 12,
+    expectedPricePerHour: 22,
+    facilitiesAvailable: ["Fishing Pier", "Boat Rentals", "Picnic Area"],
+    location: { latitude: 8.549955, longitude: 77.13911 },
+    name: "Michael Brown",
+    parkSpaceName: "Riverfront Parking",
+    parkSpaceType: "Shared",
+    phoneNumber: 9876543214,
+    pincode: 695572,
+    state: "Kerala",
+    street: "Dam Road",
+    userId: "6610b6059c58380722d14a63",
+  },
+];
 
 const AdminPage = () => {
   const [parkAreas, setParkAreas] = useState([]); // State to store park areas data
@@ -10,11 +104,12 @@ const AdminPage = () => {
 
   const fetchParkAreas = async () => {
     try {
-      const response = await axios.get(
-        "https://quikspot.vercel.app/api/admin/getParkAreasUnderVerification"
-      );
-      setParkAreas(response.data.data);
-      console.log(response.data.data); // Update state with fetched data
+      // const response = await axios.get(
+      //   "https://quikspot.vercel.app/api/admin/getParkAreasUnderVerification"
+      // );
+      // setParkAreas(response.data.data);
+      // console.log(response.data.data);
+      setParkAreas(SampleData);
     } catch (error) {
       console.error("Error fetching park areas:", error);
     }
@@ -43,13 +138,13 @@ const AdminPage = () => {
     console.log("PARK AREA DETAILS", parkAreaDetails);
     try {
       const response = await axios.post(
-        'https://quikspot.vercel.app/api/admin/addParkArea',
+        "https://quikspot.vercel.app/api/admin/addParkArea",
         parkAreaDetails
       );
-      console.log("POST SUCCESS")
+      console.log("POST SUCCESS");
       console.log(response.data);
     } catch (error) {
-      console.error('Error adding park area:', error);
+      console.error("Error adding park area:", error);
     }
   };
 
@@ -61,13 +156,13 @@ const AdminPage = () => {
 
     try {
       const response = await axios.post(
-        'https://quikspot.vercel.app/api/admin/rejectParkArea',
+        "https://quikspot.vercel.app/api/admin/rejectParkArea",
         rejectDetails
       );
-      console.log("SUCCESFULLY REJECTED")
+      console.log("SUCCESFULLY REJECTED");
       console.log(response.data);
     } catch (error) {
-      console.error('Error rejecting park area:', error);
+      console.error("Error rejecting park area:", error);
     }
   };
 
@@ -84,76 +179,48 @@ const AdminPage = () => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-      slidesToSlide: 3
+      items: 2,
+      slidesToSlide: 2,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 2,
-      slidesToSlide: 2
+      slidesToSlide: 2,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 1,
-      slidesToSlide: 1
-    }
+      slidesToSlide: 1,
+    },
   };
   return (
-    <div className="carousel-container">
     <Carousel
-    swipeable={false}
-    draggable={false}
-    showDots={true}
-    responsive={responsive}
-    ssr={true}
-    infinite={true}
-    autoPlay={true}
-    autoPlaySpeed={1000}
-    keyBoardControl={true}
-    customTransition="transform 500ms ease-in-out"
-    transitionDuration={500}
-    removeArrowOnDeviceType={["tablet", "mobile"]}
-    dotListClass="custom-dot-list-style"
-    itemClass="carousel-item-padding-40-px"
-  >
-  {parkAreas.map((area) => (
-    <div className="card" key={area.userId}>
-      <img src="Parking4.jpg" alt="Parking img" />
-      <div className="info">
-        {editingAreaId === area.userId ? (
-          <>
-            <input type="text" defaultValue={area.name} onChange={(e) => area.name = e.target.value} />
-            <input type="text" defaultValue={area.address} onChange={(e) => area.address = e.target.value} />
-            {/*Add more editable fields as needed here*/}
-          </>
-        ) : (
-          <>
-            <h2>{area.name}</h2>
-            <p>Location: {area.address}</p>
-            <p>Pin code: {area.pincode}</p>
-            <p>Email: {area.email}</p>
-          </>
-        )}
-        <button onClick={() => handleAccept(area)}>
-          Accept
-        </button>
-        <button onClick={() => handleReject(area)}>
-          Reject
-        </button>
-        {editingAreaId === area.userId ? (
-          <button onClick={() => handleSave(area)}>
-            Save
-          </button>
-        ) : (
-          <button onClick={() => handleEdit(area.userId)}>
-            Edit
-          </button>
-        )}
-      </div>
-    </div>
-  ))}
-      </Carousel>
-    </div>
+      swipeable={false}
+      draggable={false}
+      showDots={true}
+      responsive={responsive}
+      ssr={true}
+      infinite={true}
+      autoPlay={false}
+      keyBoardControl={true}
+      customTransition="transform 500ms ease-in-out"
+      transitionDuration={500}
+      removeArrowOnDeviceType={["tablet", "mobile"]}
+      dotListClass="custom-dot-list-style"
+      itemClass="carousel-item-padding-40-px"
+    >
+      {parkAreas.map((area) => (
+        <Card
+          key={area.userId}
+          area={area}
+          editingAreaId={editingAreaId}
+          handleAccept={handleAccept}
+          handleReject={handleReject}
+          handleEdit={handleEdit}
+          handleSave={handleSave}
+        />
+      ))}
+    </Carousel>
   );
 };
 
